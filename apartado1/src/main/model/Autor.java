@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Autor {
@@ -69,8 +70,10 @@ public class Autor {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatoFechaSalida = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return String.format("Nombre completo: %s %s" +
                 "%nNacionalidad: %s" +
-                "%nFecha de nacimiento: %s", nombre, apellido, nacionalidad,fechaNacimiento);
+                "%nFecha de nacimiento: %s", nombre, apellido, nacionalidad,
+                fechaNacimiento.format(formatoFechaSalida));
     }
 }

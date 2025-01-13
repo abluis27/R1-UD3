@@ -1,9 +1,9 @@
 package main.control;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import main.model.Autor;
+
+import java.util.List;
 
 public class GestorBBDD {
    private EntityManager gestorEntidades;
@@ -15,20 +15,28 @@ public class GestorBBDD {
       this.gestorEntidades = entityManagerFactory.createEntityManager();
    }
 
-   // TODO: CREATE
     public void registrarAutor(Autor nuevoAutor) {
-        EntityManagerFactory entityManagerFactory =
-                Persistence.createEntityManagerFactory("UnidadAutor");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(nuevoAutor);
-        entityManager.getTransaction().commit();
+        gestorEntidades.getTransaction().begin();
+        gestorEntidades.persist(nuevoAutor);
+        gestorEntidades.getTransaction().commit();
     }
 
-    // TODO: READ
-    // READ ALL
-    // FIND
+    public List<Autor> obtenerAutores() {
+       return gestorEntidades.createQuery(
+               " SELECT autor FROM Autor autor", Autor.class).getResultList();
+    }
+
+   public Autor buscarAutorPorNombreCompleto(String nombre, String apellidos)
+           throws NoResultException {
+       String sql = "SELECT autor FROM Autor autor" +
+               " WHERE autor.nombre =:nombre AND autor.apellido = :apellidos";
+       TypedQuery<Autor> query = gestorEntidades.createQuery(sql, Autor.class);
+       query.setParameter("nombre", nombre);
+       query.setParameter("apellidos", apellidos);
+       return query.getSingleResult();
+   };
+
+
     // TODO: UPDATE
     // TODO: DELETE
 }

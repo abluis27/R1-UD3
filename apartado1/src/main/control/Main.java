@@ -4,6 +4,7 @@ import main.model.Autor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -11,9 +12,16 @@ public class Main {
    private static GestorBBDD gestorBBDD = new GestorBBDD();
 
     public static void main(String[] args) {
-        Autor nuevoAutor = crearAutor();
-        System.out.println(nuevoAutor);
-        gestorBBDD.registrarAutor(nuevoAutor);
+        Autor autorBuscado = gestorBBDD.buscarAutorPorNombreCompleto("Isable", "Allende");
+        System.out.println(autorBuscado);
+    }
+
+    public static void listarAutores(List<Autor> autores) {
+        System.out.println("----- AUTORES REGISTRADOS -----");
+        for (Autor autor : autores) {
+            System.out.println(autor);
+            System.out.println("----------");
+        }
     }
 
     public static Autor crearAutor() {
