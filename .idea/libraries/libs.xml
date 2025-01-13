@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/apartado1/libs/eclipselink.jar!/" />
+      <root url="jar://$PROJECT_DIR$/apartado1/libs/mariadb-java-client.jar!/" />
+      <root url="jar://$PROJECT_DIR$/apartado1/libs/jakarta.persistence-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/apartado1/libs/jakarta.annotation-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

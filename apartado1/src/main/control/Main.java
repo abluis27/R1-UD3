@@ -1,41 +1,75 @@
 package main.control;
 
+import jakarta.persistence.NoResultException;
 import main.model.Autor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
    private static Scanner entrada = new Scanner(System.in);
-   private static GestorBBDD gestorBBDD = new GestorBBDD();
+   private static int opcion = 0;
 
     public static void main(String[] args) {
-        Autor autorBuscado = gestorBBDD.buscarAutorPorNombreCompleto("Isable", "Allende");
-        System.out.println(autorBuscado);
-    }
-
-    public static void listarAutores(List<Autor> autores) {
-        System.out.println("----- AUTORES REGISTRADOS -----");
-        for (Autor autor : autores) {
-            System.out.println(autor);
-            System.out.println("----------");
+        boolean salir = false;
+        while(!salir) {
+            mostrarMenu();
+            opcion = elegirOpcion();
+            salir = operar();
         }
     }
 
-    public static Autor crearAutor() {
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        System.out.print("Inserte el nombre del autor: ");
-        String nombre = entrada.nextLine();
-        System.out.print("Inserte el apellido del autor: ");
-        String apellido = entrada.nextLine();
-        System.out.print("Inserte la nacionalidad del autor: ");
-        String nacionalidad = entrada.nextLine();
-        System.out.print("Inserte la fecha de nacimineto del autor (dd/mm/yyyy): ");
-        String fechaNacimiento = entrada.nextLine();
-        return new Autor(nombre, apellido, nacionalidad,
-                LocalDate.parse(fechaNacimiento, formatoFecha));
+    private static boolean operar() {
+        System.out.println();
+        switch (opcion) {
+            case 1:
+                GestorAutor.listarAutores();
+                break;
+            case 2:
+                GestorAutor.buscarAutorPorNombre();
+                break;
+            case 3:
+                GestorAutor.registrarAutor();
+                break;
+            case 4:
+                GestorAutor.eliminarAutor();
+                break;
+            case 5:
+                GestorAutor.modificarAutor();
+                break;
+            case 6:
+                System.out.println("Fin del programa");
+                return true;
+            default:
+                System.out.println("Opcion invalida. Vuelva a intentarlo");
+                break;
+        }
+        return false;
     }
+
+    private static int elegirOpcion() {
+        try {
+            System.out.print("Elija una opcion: ");
+            String opcion = entrada.nextLine();
+            return Integer.parseInt(opcion);
+        } catch (NumberFormatException e) {
+           return -1;
+        }
+    }
+
+    public static void mostrarMenu() {
+       System.out.println("""
+               +---------------------------------------------+
+               |           GESTOR AUTORES Y LIBROS           |
+               +---------------------------------------------+
+               1) Listar todos los autores.
+               2) Buscar autor por nombre completo.
+               3) Registrar autor.
+               4) Eliminar autor.
+               5) Modificar autor.
+               6) Salir.""");
+   }
 }

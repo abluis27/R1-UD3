@@ -5,11 +5,11 @@ import main.model.Autor;
 
 import java.util.List;
 
-public class GestorBBDD {
+public class GestorEntidadAutor {
    private EntityManager gestorEntidades;
    private final String UNIDAD = "UnidadAutor";
 
-   public GestorBBDD() {
+   public GestorEntidadAutor() {
        EntityManagerFactory entityManagerFactory =
                Persistence.createEntityManagerFactory(UNIDAD);
       this.gestorEntidades = entityManagerFactory.createEntityManager();
@@ -36,7 +36,16 @@ public class GestorBBDD {
        return query.getSingleResult();
    };
 
+    public void actualizarAutor(Autor autorModificado) {
+        gestorEntidades.getTransaction().begin();
+        gestorEntidades.merge(autorModificado);
+        gestorEntidades.getTransaction().commit();
+    }
 
-    // TODO: UPDATE
-    // TODO: DELETE
+    public void eliminarAutor(Autor autor) {
+       gestorEntidades.getTransaction().begin();
+       gestorEntidades.remove(autor);
+       gestorEntidades.getTransaction().commit();
+    }
+
 }
